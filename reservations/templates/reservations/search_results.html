@@ -1,0 +1,21 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}نتایج جست وجو{% endblock %}
+
+{% block content %}
+<h1>نتایج جست وجو</h1>
+{% if houses %}
+    <div class="house-grid">
+        {% for house in houses %}
+            <div class="house-card">  
+                <img src="{{ house.image.url }}" alt="{{ house.name }}">
+                <h2><a href="{% url 'house_detail' house.pk %}">{{ house.name }}</a></h2>
+                <p>شهر: {{ house.city }}</p>
+                <p>قیمت: {{ house.price_per_day }} تومان</p>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No houses found for query "{{ query }}".</p>
+{% endif %}
+{% endblock %}

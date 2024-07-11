@@ -1,0 +1,96 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}House Detail{% endblock %}
+
+{% block content %}
+<main>
+    <div class="center house-container">
+        <div class="border-form">
+            <div class="house-info">
+                <h1>{{ object.name }}</h1>
+                <img class="image-house" src="{{ object.image.url }}" alt="{{ object.name }}">
+                <p>شهر: {{ object.city }}</p>
+                <p>تعداد اتاق: {{ object.number_of_rooms }}</p>
+                <p>مساحت: {{ object.area }} متر</p>
+                <p>تعداد پارکینگ: {{ object.number_of_parkings }}</p>
+                <p>ظرفیت: {{ object.capacity }} نفر</p>
+                <p>قیمت به ازای هر روز: {{ object.price_per_day }} تومان</p>
+                <p>استخر: {{ object.pool|yesno:"دارد,ندارد" }}</p>
+                <p>اجاق گاز:{{ object.oven|yesno:"دارد,ندارد" }}</p>
+                <p>میزبان: {{ object.user.username }}</p>
+            </div>
+
+            {% if user.is_authenticated %}
+                <div class="space"></div>
+                <div class="center border-form padding-form">
+                    <form method="post" action="{% url 'order_house' object.pk %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_arrive_date">تاریخ شروع:</label>
+                            <input type="date" name="arrive_date" id="id_arrive_date" class="input_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_exit_date">تاریخ تحویل:</label>
+                            <input type="date" name="exit_date" id="id_exit_date" class="input_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="id_count_of_passengers">تعداد مسافر:</label>
+                            <input type="number" name="count_of_passengers" id="id_count_of_passengers" placeholder="فقط عدد" required>
+                        </div>
+                        <button type="submit" class="button">رزرو</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="center">
+                    <p>لطفا برای رزرو <a href="{% url 'login' %}">وارد </a>شوید.</p>
+                </div>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <div class="space"></div>
+            <div class="center border-form padding-form">
+                    <form method="post" action="{% url 'house_detail' pk=object.pk %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="id_rating">امتیاز:</label>
+                            {{ form.rating }}
+                            {% for error in form.rating.errors %}
+                                <p class="error">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="space"></div>
+                        <div class="form-group">
+                            <label for="id_comment">نظر شما:</label>
+                            <textarea name="comment" id="id_comment" rows="4" required>{{ form.comment.value }}</textarea>
+                            {% for error in form.comment.errors %}
+                                <p class="error">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="button">ثبت نظر</button>
+                    </form>
+                </div>
+            {% endif %}
+            <div class="reviews">
+                <h2>نظرات کاربران</h2>
+                {% if reviews %}
+                    <ul>
+                        {% for review in reviews %}
+                            <li class="comments">
+                                <p><strong>{{ review.user.username }}</strong> - {{ review.created_at|date:"F d, Y" }}</p>
+                                <p>امتیاز: {{ review.rating}}     |   کامنت  : {{ review.comment }}</p>
+                                <p></p>
+                                <div class="space"></div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>هنوز هیچ نظری ثبت نشده است.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+
+{% block extra_js %}
+    {{ form.media.js }}
+{% endblock %}

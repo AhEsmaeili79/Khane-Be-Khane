@@ -1,0 +1,54 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}Admin Panel{% endblock %}
+
+{% block content %}
+<main>
+    <div class="center admin-panel">
+        <p class="w20">مدیریت سیستم</p>
+
+        <!-- Manage Users -->
+        <section class="management-section">
+            <h2>مدیریت کاربران</h2>
+            <ul>
+                <li><a href="{% url 'admin_users_list' %}">لیست کاربران</a></li>
+            </ul>
+        </section>
+
+        <!-- Manage Houses -->
+        <section class="management-section">
+            <h2>مدیریت خانه‌ها</h2>
+            <ul>
+                <li><a href="{% url 'admin_houses_list' %}">لیست خانه‌ها</a></li>
+            </ul>
+        </section>
+
+        <!-- Manage Orders -->
+        <section class="management-section">
+            <h2>مدیریت سفارش‌ها</h2>
+            <ul>
+                <li><a href="{% url 'admin_orders_list' %}">لیست سفارش‌ها</a></li>
+            </ul>
+        </section>
+
+        <!-- Add New Admin -->
+        <section class="management-section">
+            <h2>افزودن ادمین جدید</h2>
+            <form method="post" action="{% url 'admin_add_admin' %}">
+                {% csrf_token %}
+                <label for="id_new_admin_username">نام کاربری:</label>
+                <input type="text" name="new_admin_username" id="id_new_admin_username" required>
+                <button type="submit">افزودن به عنوان ادمین</button>
+            </form>
+        </section>
+
+        <!-- Manage Host Applications -->
+        <section class="management-section">
+            <h2>بررسی درخواست‌های میزبانی</h2>
+            <ul>
+                <li><a href="{% url 'host_requests' %}">لیست درخواست‌ها</a></li>
+            </ul>
+        </section>
+    </div>
+</main>
+{% endblock %}

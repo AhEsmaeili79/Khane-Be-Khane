@@ -1,0 +1,58 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}اضافه کردن خانه{% endblock %}
+
+{% block content %}
+<h1>اضافه کردن</h1>
+<main>
+    <div class="signup-form">
+        <h1>ثبت نام</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset>
+                <div class="form-group">
+                    <label for="id_name">نام موضوع:</label>
+                    {{ form.name }}
+                </div>
+                <div class="form-group">
+                    <label for="id_image">تصویر:</label>
+                    {{ form.image }}
+                </div>
+                <div class="form-group">
+                    <label for="id_city">شهر:</label>
+                    {{ form.city }}
+                </div>
+                <div class="form-group">
+                    <label for="id_number_of_rooms">تعداد اتاق:</label>
+                    {{ form.number_of_rooms }}
+                </div>
+                <div class="form-group">
+                    <label for="id_area">متراژ:</label>
+                    {{ form.area }}
+                </div>
+                <div class="form-group">
+                    <label for="id_number_of_parkings">تعداد پارکینگ:</label>
+                    {{ form.number_of_parkings }}
+                </div>
+                <div class="form-group">
+                    <label for="id_capacity">ظرفیت:</label>
+                    {{ form.capacity }}
+                </div>
+                <div class="form-group">
+                    <label for="id_price_per_day">قیمت هر روز:</label>
+                    {{ form.price_per_day }}
+                </div>
+                <div class="form-group">
+                    <label for="id_pool">استخر:</label>
+                    {{ form.pool }}
+                </div>
+                <div class="form-group">
+                    <label for="id_oven">اجاق گاز:</label>
+                    {{ form.oven }}
+                </div>
+                <button type="submit" class="btn btn-primary">ذخیره</button>                
+            </fieldset>  
+        </form>  
+    </div>
+</main>        
+{% endblock %}

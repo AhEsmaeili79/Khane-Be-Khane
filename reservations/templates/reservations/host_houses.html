@@ -1,0 +1,24 @@
+{% extends 'reservations/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>خانه میزبان</h1>
+    </header>
+    <main>
+        <div class="house-grid">
+            {% for house in user.house_set.all %}
+                <div class="house-card">
+                    <img src="{{ house.image.url }}" alt="{{ house.name }}">
+                    <p class="center">{{ house.name }}</p>
+                    <button class="button" onclick="location.href='{% url 'house_update' pk=house.pk %}'">تغییر</button>
+                    <button class="button" onclick="location.href='{% url 'house_delete' pk=house.pk %}'">حذف</button>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+</body>
+{% endblock %}

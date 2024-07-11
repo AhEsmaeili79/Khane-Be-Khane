@@ -1,0 +1,43 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}مدیریت کاربران{% endblock %}
+
+{% block content %}
+<h1>مدیریت کاربران</h1>
+<table>
+    <thead>
+        <tr>
+            <th>نام کاربری</th>
+            <th>ایمیل</th>
+            <th>نقش</th>
+            <th>شماره تلفن</th>
+            <th>آدرس</th>
+            <th>حذف</th>
+            <th>وضعیت</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.get_role_display }}</td>
+            <td>{{ user.phonenumber }}</td>
+            <td>{{ user.address }}</td>
+            <td>
+                <form method="post" action="{% url 'admin_delete_user' user.id %}">
+                    {% csrf_token %}
+                    <button type="submit">حذف</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{% url 'toggle_user_status' user.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">{{ user.is_active|yesno:" غیرفعال , فعال " }}</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

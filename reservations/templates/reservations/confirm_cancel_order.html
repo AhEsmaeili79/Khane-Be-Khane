@@ -1,0 +1,13 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}لفو رزرو{% endblock %}
+
+{% block content %}
+    <h1>لفو رزرو</h1>
+    <p>آیا شما اطمینان از لفو "{{ order.house.name }}" دارید؟</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="cancel-button">بله لغو کن</button>
+        <a href="{% url 'user_orders' %}">نه لفو نکن</a>
+    </form>
+{% endblock %}

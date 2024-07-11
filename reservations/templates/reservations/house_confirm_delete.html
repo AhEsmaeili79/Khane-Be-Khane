@@ -1,0 +1,12 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}حذف{% endblock %}
+
+{% block content %}
+<h1> آیا از حذف خانه {{ object.name }} مطمئن هستید؟</h1>
+<form class="center" method="post">
+    {% csrf_token %}
+    <a href="{% url 'house_list' %}"> لفو </a>
+    <button type="submit">حذف</button>
+</form>
+{% endblock %}

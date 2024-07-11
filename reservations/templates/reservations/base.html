@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}خانه به خانه{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/iransans-fontface@0.1.1/css/iransans/iransans-fontface.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">صفحه اصلی</a></li>
+                <li><a href="{% url 'house_list' %}">تمامی خانه ها</a></li>
+                {% if user.is_authenticated %}
+                    <li class="dropdown">
+                        <a href="#" class="dropbtn"> {{ user.first_name }} عزیز خوش امدید  &#9660;</a>
+                        <div class="dropdown-content">
+                            <a href="{% url 'user_info' %}">اطلاعات کاربر</a>
+                            <a href="{% url 'user_orders' %}">سفارشات</a>
+                            {% if user.role == 2 %}
+                                <a href="{% url 'host_reservations' %}">رزرو ها</a>
+                            {% endif %}
+                            <a href="{% url 'logout' %}">خروج</a>
+                        </div>
+                    </li>
+                    {% if user.role == 2 %}
+                        <li class="dropdown">
+                            <a href="#" class="dropbtn">مدیریت &#9660;</a>
+                            <div class="dropdown-content">
+                                <a href="{% url 'house_create' %}">اضافه کردن</a>
+                                <a href="{% url 'host_houses' %}">خانه ها</a>
+                            </div>
+                        </li>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                        <li class="dropdown">
+                            <a href="#" class="dropbtn">مدیریت  &#9660;</a>
+                            <div class="dropdown-content">
+                                <a href="{% url 'admin_panel' %}">پنل ادمین</a>
+                            </div>
+                        </li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="{% url 'login' %}">ورود</a></li>
+                    <li><a href="{% url 'signup' %}">ثبت نام</a></li>
+                {% endif %}
+            </ul>
+            <form method="get" action="{% url 'search' %}" class="center search-form">
+                <input type="text" name="q" placeholder="جستوجو..." required>
+                <button type="submit">جست و جو</button>
+            </form>
+        </nav>
+    </header>
+    <main class="center">
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+<footer>
+    <p>  کلیه حقوق مادی و معنوی این وبسایت متعلق به خانه به خانه است .  </p>
+</footer>
+<script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+
+    function plusSlides(n) {
+        showSlides(slideIndex += n);
+    }
+
+    function showSlides(n) {
+        let i;
+        let slides = document.getElementsByClassName("slide");
+        if (n > slides.length) { slideIndex = 1 }
+        if (n < 1) { slideIndex = slides.length }
+        for (i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";
+        }
+        slides[slideIndex - 1].style.display = "block";
+    }
+</script>
+</html>

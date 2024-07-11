@@ -1,0 +1,49 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}مدیریت خانه‌ها{% endblock %}
+
+{% block content %}
+<h1>مدیریت خانه‌ها</h1>
+<table>
+    <thead>
+        <tr>
+            <th>نام</th>
+            <th>شهر</th>
+            <th>تعداد اتاق‌ها</th>
+            <th>مساحت</th>
+            <th>تعداد پارکینگ‌ها</th>
+            <th>ظرفیت</th>
+            <th>قیمت به ازای هر روز</th>
+            <th>میزبان</th>
+            <th>حذف</th>
+            <th>وضعیت</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for house in houses %}
+        <tr>
+            <td><a href="{% url 'house_detail' house.pk %}">{{ house.name }}</a></td>
+            <td>{{ house.city }}</td>
+            <td>{{ house.number_of_rooms }}</td>
+            <td>{{ house.area }}</td>
+            <td>{{ house.number_of_parkings }}</td>
+            <td>{{ house.capacity }}</td>
+            <td>{{ house.price_per_day }}</td>
+            <td>{{ house.user.username }}</td>
+            <td>
+                <form method="post" action="{% url 'admin_delete_house' house.id %}">
+                    {% csrf_token %}
+                    <button type="submit">حذف</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{% url 'toggle_house_status' house.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">{{ house.is_active|yesno:"غیرفعال ,فعال " }}</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

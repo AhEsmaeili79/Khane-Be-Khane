@@ -1,0 +1,82 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+<main>
+    <div class="signup-form">
+        <h1>ثبت نام</h1>
+        <form method="post">
+            {% csrf_token %}
+            <fieldset>
+                {% if form.errors %}
+                    <div class="error">
+                        <ul>
+                            {% for error in form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="id_username">نام کاربری:</label>
+                    {{ form.username }}
+                    {% for error in form.username.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="id_password">کلمه عبور:</label>
+                    {{ form.password1 }}
+                    {% for error in form.password1.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="id_password_confirm">دوباره کلمه عبور را وارد کنید:</label>
+                    {{ form.password2 }}
+                    {% for error in form.password2.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="id_first_name">نام :</label>
+                    {{ form.first_name }}
+                    {% for error in form.first_name.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="id_last_name">نام خانوادگی:</label>
+                    {{ form.last_name }}
+                    {% for error in form.last_name.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="id_email">ایمیل:</label>
+                    {{ form.email }}
+                    {% for error in form.email.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="id_phonenumber">شماره تلفن همراه:</label>
+                    {{ form.phonenumber }}
+                    {% for error in form.phonenumber.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    <label for="id_address">ادرس:</label>
+                    {{ form.address }}
+                    {% for error in form.address.errors %}
+                        <p class="error">{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </fieldset>
+            <button type="submit">ثبت نام</button>
+        </form>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}House List{% endblock %}
+
+{% block content %}
+    <h2>خانه ها</h2>
+    <div class="center house-container">
+        <form class="search-form" method="get">
+            <label for="id_price">جستجو بر اساس قیمت (حداکثر):</label>
+            <input type="number" name="price" id="id_price" min="0" step="100">
+            <button type="submit">جستجو</button>
+        </form>
+        <form class="search-form" method="get">
+            <label for="id_location">جستجو بر اساس مکان:</label>
+            <input type="text" name="location" id="id_location">
+            <button type="submit">جستجو</button>
+        </form>
+        <div class="sort-options">
+            <form method="get">
+                <label for="id_sort_by">مرتب‌سازی بر اساس:</label>
+                <select name="sort_by" id="id_sort_by">
+                    <option value="-created_at">جدیدترین</option>
+                    <option value="price_per_day">قیمت (پایین به بالا)</option>
+                    <option value="-price_per_day">قیمت (بالا به پایین)</option>
+                </select>
+                <button type="submit">مرتب‌سازی</button>
+            </form>
+        </div>
+        <div class="house-grid">
+            {% for house in houses %}
+            <div class="house-card">
+                <img src="{{ house.image.url }}" alt="{{ house.name }}">
+                <a class="center" href="{% url 'house_detail' house.pk %}"><p><strong>{{ house.name }}</strong></p></a>
+                <p class="house-price">قیمت: روزی {{ house.price_per_day }} تومان </p>
+                <p class="house-city">شهر: {{ house.city }}</p>
+            </div>
+        {% empty %}
+            <p>خانه ای با این مشخصات پیدا نشد !!! </p>
+        {% endfor %}
+    </div>
+{% endblock %}

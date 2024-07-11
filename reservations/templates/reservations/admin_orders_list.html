@@ -1,0 +1,38 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}مدیریت سفارش‌ها{% endblock %}
+
+{% block content %}
+<h1>مدیریت سفارش‌ها</h1>
+<table>
+    <thead>
+        <tr>
+            <th>خانه</th>
+            <th>مسافر</th>
+            <th>تاریخ شروع</th>
+            <th>تاریخ تحویل</th>
+            <th>تعداد مسافرین</th>
+            <th>قیمت کل</th>
+            <th>اقدامات</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.house.name }}</td>
+            <td>{{ order.user.username }}</td>
+            <td>{{ order.arrive_date }}</td>
+            <td>{{ order.exit_date }}</td>
+            <td>{{ order.count_of_passengers }}</td>
+            <td>{{ order.total_price }}</td>
+            <td>
+                <form method="post" action="{% url 'admin_delete_order' order.id %}">
+                    {% csrf_token %}
+                    <button type="submit">حذف</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

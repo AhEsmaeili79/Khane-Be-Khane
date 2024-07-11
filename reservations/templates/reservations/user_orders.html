@@ -1,0 +1,28 @@
+{% extends 'reservations/base.html' %}
+
+{% block title %}سفارشات شما{% endblock %}
+
+{% block content %}
+    <h1>سفارشات شما</h1>
+    {% if orders %}
+        <div class="house-grid">
+            {% for order in orders %}
+                <div class="house-card">  
+                    <img src="{{ order.house.image.url }}" alt="{{ order.house.name }}">
+                    <a href="{% url 'house_detail' order.house.pk %}"><p>{{ order.house.name }}</p></a>
+                    <p>تاریخ شروع: {{ order.arrive_date }}</p>
+                    <p>تاریخ تحویل: {{ order.exit_date }}</p>
+                    <p>تعداد مسافرین: {{ order.count_of_passengers }}</p>
+                    <p>قیمت کل: {{ order.total_price }}</p>
+                    <p>شماره تماس میزبان: {{ order.house.user.phonenumber }}</p>
+                    <form method="post" action="{% url 'cancel_order' order.pk %}">
+                        {% csrf_token %}
+                            <button class="confirm-button:" type="submit"> کنسل کن</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>شما هیج سفارشی ندارید</p>
+    {% endif %}
+{% endblock %}
